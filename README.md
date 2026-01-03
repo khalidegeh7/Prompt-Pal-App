@@ -318,40 +318,123 @@ We use [Conventional Commits](https://conventionalcommits.org/) for consistent c
 
 ### 🚀 Submitting a Pull Request
 
-#### Step 1: Create the Pull Request
-1. Go to your fork on GitHub
-2. Click **"Compare & pull request"** button
-3. **Base repository**: `mwijanarko1/Prompt-Pal-App`
-4. **Base branch**: `main`
-5. **Head repository**: `your-username/Prompt-Pal-App`
-6. **Compare branch**: `feature/your-awesome-feature`
+Ready to share your work? Here's the complete step-by-step guide to create a Pull Request.
 
-#### Step 2: Write a Great PR Description
-```markdown
-## What does this PR do?
-Brief description of your changes
+#### Step 1: Push Your Branch to GitHub
+Before creating a PR, make sure your branch is on GitHub:
 
-## Why is this change needed?
-Explain the problem you're solving
+```bash
+# Push your branch to your fork
+git push origin feature/your-awesome-feature
 
-## How was this tested?
-- [ ] Tested on iOS Simulator
-- [ ] Tested on Android Emulator
-- [ ] Manual testing completed
-- [ ] All existing tests pass
-
-## Screenshots (if applicable)
-Add screenshots of UI changes
-
-## Additional Notes
-Any other information reviewers should know
+# Git will show you the command if it's your first push:
+# git push --set-upstream origin feature/your-awesome-feature
 ```
 
-#### Step 3: Submit and Wait for Review
+#### Step 2: Create the Pull Request on GitHub
+
+1. **Go to your fork on GitHub**
+   - Open your web browser
+   - Go to `https://github.com/your-username/Prompt-Pal-App`
+
+2. **Find your branch**
+   - Look for a banner at the top that says something like:
+     > "Your recently pushed branches: `feature/your-awesome-feature`"
+   - Click the **"Compare & pull request"** button
+
+3. **Or manually create PR:**
+   - Click the **"Pull requests"** tab
+   - Click the green **"New pull request"** button
+   - Click **"compare across forks"** (if needed)
+
+4. **Set up the PR correctly:**
+   - **Base repository**: `mwijanarko1/Prompt-Pal-App`
+   - **Base branch**: `main` (this is where your changes will go)
+   - **Head repository**: `your-username/Prompt-Pal-App`
+   - **Compare branch**: `feature/your-awesome-feature` (your branch)
+
+#### Step 3: Write a Clear PR Description
+
+**Title**: Make it descriptive but short
+- ✅ `feat: add dark mode toggle to settings screen`
+- ✅ `fix: prevent crash when user has no internet`
+- ❌ `update stuff`
+- ❌ `bug fix`
+
+**Description**: Use this template and fill it out completely:
+
+```markdown
+## 📝 What does this PR do?
+Write 1-2 sentences explaining what you changed.
+Example: "Adds a dark mode toggle button to the settings screen"
+
+## 🤔 Why is this change needed?
+Explain the problem you're solving.
+Example: "Users requested a dark mode option for better visibility at night"
+
+## 🧪 How was this tested?
+Check all that apply:
+- [ ] Tested on iOS Simulator (specify version: iPhone 15, iOS 17)
+- [ ] Tested on Android Emulator (specify: Pixel 8, Android 14)
+- [ ] Tested on physical iOS device
+- [ ] Tested on physical Android device
+- [ ] Manual testing completed (describe what you tested)
+- [ ] All existing tests pass (`npm test`)
+- [ ] Added new tests for this feature
+
+## 📸 Screenshots (if applicable)
+If you changed the UI, add screenshots:
+- **Before**: (show old screen)
+- **After**: (show new screen)
+- **How it works**: (show the feature in action)
+
+## 📋 Additional Notes
+Anything else reviewers should know:
+- Related issues: Fixes #123
+- Breaking changes: This changes the API for...
+- Dependencies: Added new package `react-native-vector-icons`
+- Performance: This improves load time by 20%
+```
+
+#### Step 4: Create the Pull Request
+- Double-check everything looks correct
 - Click **"Create pull request"**
-- Wait for maintainers to review
-- Address any requested changes
-- Once approved, your PR will be merged!
+- **Don't worry** - you can edit the title/description later!
+
+#### Step 5: What Happens Next?
+
+**Immediately after creating:**
+- GitHub runs automated checks (if set up)
+- The maintainer gets notified
+
+**During review:**
+- Wait for comments and feedback
+- You might see:
+  - ✅ **Approved** - Ready to merge!
+  - 💬 **Comments** - Questions or suggestions
+  - 🔄 **Changes requested** - Need to fix something
+  - ❌ **Closed** - Not accepted (with explanation)
+
+#### Step 6: Address Feedback
+If changes are requested:
+
+1. **Make the changes locally:**
+   ```bash
+   git checkout feature/your-awesome-feature
+   # Make your changes
+   git add .
+   git commit -m "fix: address review feedback - add error handling"
+   git push origin feature/your-awesome-feature
+   ```
+
+2. **The PR updates automatically!**
+   - No need to create a new PR
+   - Reviewers see your new commits
+
+#### Step 7: Your PR Gets Merged! 🎉
+- Once approved, the maintainer will merge it
+- You'll get a notification
+- Your changes are now part of the main project!
 
 ### 🧹 Cleaning Up After Merge
 
