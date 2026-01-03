@@ -193,20 +193,191 @@ PromptPal/
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our contributing guidelines:
+We welcome contributions from developers of all skill levels! Whether you're fixing a bug, adding a feature, or improving documentation, your help is appreciated. This guide is designed for beginners who are new to Git and open source collaboration.
 
-### Development Setup
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/amazing-feature`
-3. Make your changes and test thoroughly
-4. Commit with conventional commits: `git commit -m "feat: add amazing feature"`
-5. Push and create a Pull Request
+### 🛠️ Git Setup for Beginners
 
-### Code Style
-- **TypeScript**: Strict mode enabled
+#### Step 1: Fork the Repository
+1. Go to the [PromptPal repository](https://github.com/mwijanarko1/Prompt-Pal-App) on GitHub
+2. Click the **"Fork"** button in the top-right corner
+3. This creates a copy of the repository under your GitHub account
+
+#### Step 2: Clone Your Fork Locally
+```bash
+# Replace 'your-username' with your actual GitHub username
+git clone https://github.com/your-username/Prompt-Pal-App.git
+cd Prompt-Pal-App
+```
+
+#### Step 3: Set Up Git Configuration
+```bash
+# Set your name and email (replace with your info)
+git config --global user.name "Your Full Name"
+git config --global user.email "your.email@example.com"
+
+# Verify your setup
+git config --list --show-origin
+```
+
+#### Step 4: Connect to the Original Repository
+```bash
+# Add the original repository as 'upstream'
+git remote add upstream https://github.com/mwijanarko1/Prompt-Pal-App.git
+
+# Verify remotes
+git remote -v
+```
+
+### 🌿 Working with Git Branches
+
+#### Creating a New Branch
+Always create a new branch for your changes - never work directly on `main`:
+
+```bash
+# Create and switch to a new branch
+# Use descriptive names like: feature/add-dark-mode, fix/login-bug, docs/update-readme
+git checkout -b feature/your-awesome-feature
+
+# Or create and switch in two steps:
+git branch feature/your-awesome-feature
+git checkout feature/your-awesome-feature
+```
+
+#### Making Changes and Committing
+```bash
+# Check what files you've changed
+git status
+
+# Stage your changes
+git add .
+
+# Or stage specific files
+git add README.md
+git add PromptPal/src/components/Button.tsx
+
+# Commit with a descriptive message
+git commit -m "feat: add dark mode toggle button"
+
+# For multiple related changes, make multiple commits:
+git add file1.js
+git commit -m "feat: implement button component"
+git add file2.js
+git commit -m "feat: add button styling"
+```
+
+#### Pushing Your Branch
+```bash
+# Push your branch to GitHub
+git push origin feature/your-awesome-feature
+
+# If this is your first push of this branch, Git might suggest:
+git push --set-upstream origin feature/your-awesome-feature
+```
+
+### 🔄 Keeping Your Branch Updated
+
+Before submitting a PR, make sure your branch is up to date:
+
+```bash
+# Switch to main branch
+git checkout main
+
+# Pull latest changes from upstream
+git pull upstream main
+
+# Switch back to your branch
+git checkout feature/your-awesome-feature
+
+# Merge latest changes into your branch
+git merge main
+
+# Or use rebase (cleaner history):
+git rebase main
+```
+
+### 📝 Conventional Commits
+
+We use [Conventional Commits](https://conventionalcommits.org/) for consistent commit messages:
+
+| Type | Description | Example |
+|------|-------------|---------|
+| `feat:` | New feature | `feat: add user authentication` |
+| `fix:` | Bug fix | `fix: resolve login timeout issue` |
+| `docs:` | Documentation | `docs: update installation guide` |
+| `style:` | Code style | `style: format code with prettier` |
+| `refactor:` | Code restructure | `refactor: simplify user validation logic` |
+| `test:` | Tests | `test: add unit tests for auth service` |
+| `chore:` | Maintenance | `chore: update dependencies` |
+
+**Examples:**
+- ✅ `feat: add dark mode toggle`
+- ✅ `fix: resolve crash on iOS devices`
+- ✅ `docs: clarify installation steps for Windows`
+- ❌ `updated stuff`
+- ❌ `fixed bug`
+
+### 🚀 Submitting a Pull Request
+
+#### Step 1: Create the Pull Request
+1. Go to your fork on GitHub
+2. Click **"Compare & pull request"** button
+3. **Base repository**: `mwijanarko1/Prompt-Pal-App`
+4. **Base branch**: `main`
+5. **Head repository**: `your-username/Prompt-Pal-App`
+6. **Compare branch**: `feature/your-awesome-feature`
+
+#### Step 2: Write a Great PR Description
+```markdown
+## What does this PR do?
+Brief description of your changes
+
+## Why is this change needed?
+Explain the problem you're solving
+
+## How was this tested?
+- [ ] Tested on iOS Simulator
+- [ ] Tested on Android Emulator
+- [ ] Manual testing completed
+- [ ] All existing tests pass
+
+## Screenshots (if applicable)
+Add screenshots of UI changes
+
+## Additional Notes
+Any other information reviewers should know
+```
+
+#### Step 3: Submit and Wait for Review
+- Click **"Create pull request"**
+- Wait for maintainers to review
+- Address any requested changes
+- Once approved, your PR will be merged!
+
+### 🧹 Cleaning Up After Merge
+
+After your PR is merged:
+```bash
+# Delete your local branch
+git branch -d feature/your-awesome-feature
+
+# Delete from GitHub (optional, done via GitHub UI)
+# Or via command line:
+git push origin --delete feature/your-awesome-feature
+```
+
+### 🆘 Need Help?
+
+- **Git Basics**: Check out [GitHub's Git Handbook](https://guides.github.com/introduction/git-handbook/)
+- **Interactive Git**: Try [Learn Git Branching](https://learngitbranching.js.org/)
+- **Conventional Commits**: Read the [full specification](https://conventionalcommits.org/)
+- **Questions**: Open a [GitHub Discussion](https://github.com/mwijanarko1/Prompt-Pal-App/discussions) or [Issue](https://github.com/mwijanarko1/Prompt-Pal-App/issues)
+
+### Code Style Guidelines
+- **TypeScript**: Strict mode enabled - all code must be type-safe
 - **ESLint**: Configured for React Native best practices
-- **Prettier**: Automatic code formatting
+- **Prettier**: Automatic code formatting (run `npm run format`)
 - **Conventional Commits**: Required for all commits
+- **Testing**: Add tests for new features when possible
 
 ## 📄 License
 
