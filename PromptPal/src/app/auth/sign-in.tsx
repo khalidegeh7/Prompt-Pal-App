@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { SignIn } from '@clerk/clerk-expo';
+import { SignIn } from '@clerk/clerk-expo/web'; // Using web components for now - will need custom UI in Phase 3
 
 export default function SignInScreen() {
   return (

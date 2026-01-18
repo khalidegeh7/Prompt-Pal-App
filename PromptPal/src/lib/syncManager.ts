@@ -1,5 +1,5 @@
-import { useGameStore } from '../features/game/store';
-import { logger } from './logger';
+import { useGameStore } from '@/features/game/store';
+import { logger } from '@/lib/logger';
 
 // Constants
 const SYNC_INTERVAL_MS = 30000; // 30 seconds
@@ -91,10 +91,8 @@ export class SyncManager {
       // Simulate network delay for testing
       await new Promise(resolve => setTimeout(resolve, 500));
 
-      // Simulate occasional failures for testing retry logic
-      if (Math.random() < 0.1 && retryCount === 0) { // 10% chance of failure
-        throw new Error('Simulated network error');
-      }
+      // TODO: Replace with actual API call when backend is ready
+      // For now, simulate successful sync
 
     } catch (error) {
       if (retryCount < MAX_SYNC_RETRIES) {

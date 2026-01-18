@@ -1,5 +1,5 @@
-import { aiProxy } from './aiProxy';
-import { logger } from './logger';
+import { aiProxy } from '@/lib/aiProxy';
+import { logger } from '@/lib/logger';
 
 // Constants
 const DEFAULT_USAGE_THRESHOLD = 80; // Percentage threshold for "near limit" warnings

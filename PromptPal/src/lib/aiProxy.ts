@@ -1,8 +1,8 @@
 import axios from 'axios';
 import axiosRetry from 'axios-retry';
-import { tokenCache } from './auth';
-import { logger } from './logger';
-import { isTextGenerationAllowed, isImageGenerationAllowed } from './rateLimiter';
+import { tokenCache } from '@/lib/auth';
+import { logger } from '@/lib/logger';
+import { isTextGenerationAllowed, isImageGenerationAllowed } from '@/lib/rateLimiter';
 
 // Constants
 const AI_PROXY_URL = process.env.EXPO_PUBLIC_AI_PROXY_URL || 'http://localhost:3000';
@@ -51,15 +51,37 @@ aiProxy.interceptors.request.use(async (config) => {
   return config;
 });
 
-// Response interceptor for quota handling
+// Response interceptor for quota and auth handling
 aiProxy.interceptors.response.use(
   (response) => response,
-  (error) => {
+  async (error) => {
+    const originalRequest = error.config;
+
     if (error.response?.status === 429) {
       // Quota exceeded - could show upgrade prompt
       logger.warn('AI Proxy', 'Quota exceeded', error.response.data);
-    } else if (error.response?.status === 401) {
-      logger.warn('AI Proxy', 'Authentication failed - token may be expired');
+    } else if (error.response?.status === 401 && !originalRequest._retry) {
+      // Token expired - attempt to refresh
+      logger.warn('AI Proxy', 'Token expired, attempting refresh');
+
+      try {
+        // Clear the expired token
+        await tokenCache.saveToken('__clerk_client_jwt', '');
+
+        // Try to get a fresh token
+        const freshToken = await tokenCache.getToken('__clerk_client_jwt');
+
+        if (freshToken) {
+          // Retry the original request with fresh token
+          originalRequest.headers.Authorization = `Bearer ${freshToken}`;
+          originalRequest._retry = true;
+          return aiProxy(originalRequest);
+        } else {
+          logger.error('AI Proxy', 'No fresh token available after refresh attempt');
+        }
+      } catch (refreshError) {
+        logger.error('AI Proxy', refreshError as Error);
+      }
     } else {
       logger.error('AI Proxy', error, {
         status: error.response?.status,

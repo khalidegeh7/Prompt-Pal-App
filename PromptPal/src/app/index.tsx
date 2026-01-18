@@ -1,11 +1,11 @@
 import { View, Text, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { LEVELS, getUnlockedLevels } from '../features/levels/data';
-import { UsageDisplay } from '../components/UsageDisplay';
-import { UsageClient, UsageStats } from '../lib/usage';
-import { useGameStore } from '../features/game/store';
-import { logger } from '../lib/logger';
+import { LEVELS, getUnlockedLevels } from '@/features/levels/data';
+import { UsageDisplay } from '@/components/UsageDisplay';
+import { UsageClient, UsageStats } from '@/lib/usage';
+import { useGameStore } from '@/features/game/store';
+import { logger } from '@/lib/logger';
 
 export default function HomeScreen() {
   const router = useRouter();

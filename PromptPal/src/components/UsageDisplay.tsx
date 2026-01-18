@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { UsageStats } from '../lib/usage';
+import { UsageStats } from '@/lib/usage';
 
 interface UsageDisplayProps {
   usage: UsageStats;

@@ -3,10 +3,10 @@ import { StatusBar } from 'expo-status-bar';
 import { SignedIn, SignedOut } from '@clerk/clerk-expo';
 import { useEffect } from 'react';
 import { AppState, AppStateStatus } from 'react-native';
-import { ClerkProviderWrapper } from '../lib/clerk';
-import { validateEnvironment } from '../lib/env';
-import { SyncManager } from '../lib/syncManager';
-import { logger } from '../lib/logger';
+import { ClerkProviderWrapper } from '@/lib/clerk';
+import { validateEnvironment } from '@/lib/env';
+import { SyncManager } from '@/lib/syncManager';
+import { logger } from '@/lib/logger';
 
 // Validate environment variables on app startup
 validateEnvironment();

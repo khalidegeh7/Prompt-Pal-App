@@ -2,10 +2,11 @@ import { View, Text, Image, Alert } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState, useEffect } from 'react';
 import { Button, Input } from '../../components/ui';
-import { getLevelById } from '../../features/levels/data';
-import { AIProxyClient } from '../../../lib/aiProxy';
-import { UsageClient } from '../../../lib/usage';
-import { useGameStore } from '../../features/game/store';
+import { getLevelById } from '@/features/levels/data';
+import { AIProxyClient } from '@/lib/aiProxy';
+import { UsageClient } from '@/lib/usage';
+import { useGameStore } from '@/features/game/store';
+import { logger } from '@/lib/logger';
 
 export default function GameScreen() {
   const { id } = useLocalSearchParams();
@@ -66,7 +67,9 @@ export default function GameScreen() {
           },
         ]
       );
-    } catch (error: any) {
+    } catch (error) {
+      logger.error('GameScreen', error, { operation: 'handleGenerate', promptLength: prompt.length });
+
       if (error.response?.status === 429) {
         Alert.alert('Quota Exceeded', 'You\'ve reached your usage limit. Upgrade to Pro for more calls.');
       } else {

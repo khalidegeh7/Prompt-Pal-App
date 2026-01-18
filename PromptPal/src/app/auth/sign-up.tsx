@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { SignUp } from '@clerk/clerk-expo';
+import { SignUp } from '@clerk/clerk-expo/web'; // Using web components for now - will need custom UI in Phase 3
 
 export default function SignUpScreen() {
   return (
