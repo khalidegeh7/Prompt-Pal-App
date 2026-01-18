@@ -273,6 +273,7 @@ export default function HomeScreen() {
 
           {/* Feature Highlights */}
           <View className="px-6 py-10 bg-surface/30 rounded-t-[40px] flex-1">
+            <View className="flex-row flex-wrap justify-between mb-10">
               <View className="w-[48%] bg-surfaceVariant/40 p-5 rounded-3xl mb-4 border border-outline/10">
                 <View className="w-10 h-10 bg-primary/20 rounded-xl items-center justify-center mb-4">
                   <Ionicons name="game-controller" size={20} color="#FF6B00" />
