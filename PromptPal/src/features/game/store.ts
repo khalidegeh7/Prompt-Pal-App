@@ -1,60 +1,15 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import * as SecureStore from 'expo-secure-store';
-import { LEVELS } from '../levels/data';
 
-export type ModuleType = 'image' | 'code' | 'copy';
-
-export interface BaseLevel {
+export interface Level {
   id: string;
-  module: ModuleType;
   difficulty: 'beginner' | 'intermediate' | 'advanced';
-  title: string;
-  description: string;
-  passingScore: number;
-  points: number;
-  unlocked: boolean;
-  progress?: LevelProgress;
-}
-
-export interface ImageLevel extends BaseLevel {
-  module: 'image';
   targetImageUrl: string;
   hiddenPromptKeywords: string[];
-  targetPrompt?: string;
+  passingScore: number;
+  unlocked: boolean;
 }
-
-export interface CodeLevel extends BaseLevel {
-  module: 'code';
-  language: 'javascript' | 'python' | 'typescript';
-  targetCode: string;
-  instructions: string;
-  testCases?: CodeTestCase[];
-}
-
-export interface CopyLevel extends BaseLevel {
-  module: 'copy';
-  targetCopy: string;
-  context: string;
-  tone: string;
-  wordCount: number;
-}
-
-export interface CodeTestCase {
-  input: any;
-  expectedOutput: any;
-  description: string;
-}
-
-export interface LevelProgress {
-  attempts: number;
-  bestScore: number;
-  completed: boolean;
-  timeSpent: number;
-  lastAttempt: Date;
-}
-
-export type Level = ImageLevel | CodeLevel | CopyLevel;
 
 export interface GameState {
   // Current game state
@@ -73,8 +28,7 @@ export interface GameState {
   loseLife: () => void;
   resetLives: () => void;
   unlockLevel: (levelId: string) => void;
-  completeLevel: (levelId: string, score: number, points: number) => void;
-  unlockNextLevel: (currentLevelId: string) => void;
+  completeLevel: (levelId: string) => void;
   resetProgress: () => void;
 }
 
@@ -158,37 +112,15 @@ export const useGameStore = create<GameState>()(
         }
       },
 
-      completeLevel: (levelId: string, score: number, points: number) => {
+      completeLevel: (levelId: string) => {
         const completedLevels = get().completedLevels;
         if (!completedLevels.includes(levelId)) {
-          set({
-            completedLevels: [...completedLevels, levelId],
-            score: get().score + points,
-          });
-
-          // Unlock next level in sequence
-          get().unlockNextLevel(levelId);
+          set({ completedLevels: [...completedLevels, levelId] });
         }
       },
 
       resetProgress: () => {
         set(initialState);
-      },
-
-      unlockNextLevel: (currentLevelId: string) => {
-        // Find current level index
-        const currentIndex = LEVELS.findIndex(level => level.id === currentLevelId);
-        if (currentIndex === -1) return;
-
-        // Unlock next level in sequence (if exists)
-        const nextIndex = currentIndex + 1;
-        if (nextIndex < LEVELS.length) {
-          const nextLevel = LEVELS[nextIndex];
-          const unlockedLevels = get().unlockedLevels;
-          if (!unlockedLevels.includes(nextLevel.id)) {
-            set({ unlockedLevels: [...unlockedLevels, nextLevel.id] });
-          }
-        }
       },
     }),
     {

@@ -88,11 +88,11 @@ export class SyncManager {
       // Placeholder: In a real implementation, this would make an API call
       // await api.post('/user-progress/sync', gameState);
 
-      // Simulate network delay for testing
-      await new Promise(resolve => setTimeout(resolve, 500));
+      // TODO: Replace with actual backend sync API call
+      // await api.post('/user-progress/sync', gameState);
 
-      // TODO: Replace with actual API call when backend is ready
-      // For now, simulate successful sync
+      // Simulate network delay for now (remove in production)
+      await new Promise(resolve => setTimeout(resolve, 500));
 
     } catch (error) {
       if (retryCount < MAX_SYNC_RETRIES) {
