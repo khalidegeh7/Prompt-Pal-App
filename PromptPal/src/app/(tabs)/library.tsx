@@ -68,7 +68,7 @@ export default function LibraryScreen() {
   };
 
   const renderModuleCard = (module: LearningModule) => {
-    const thumbnail = module.thumbnail || getModuleThumbnail(module.title, module.topic);
+    const thumbnail = module.thumbnail || getModuleThumbnail(module.title, module.category, module.topic);
     
     return (
       <TouchableOpacity
@@ -78,7 +78,7 @@ export default function LibraryScreen() {
             // Future: open video player
             console.log('Open video player for:', module.title);
           } else {
-            router.push(`/(tabs)/game/${module.id}`);
+            router.push(`/(tabs)/game/levels/${module.id}`);
           }
         }}
         className="mr-4 w-64"

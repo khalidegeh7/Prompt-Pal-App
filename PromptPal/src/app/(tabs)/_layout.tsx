@@ -79,6 +79,12 @@ export default function TabLayout() {
           href: null,
         }}
       />
+      <Tabs.Screen
+        name="game/levels/[moduleId]"
+        options={{
+          href: null,
+        }}
+      />
     </Tabs>
   );
 }

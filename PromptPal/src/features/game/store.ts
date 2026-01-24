@@ -6,6 +6,7 @@ export type ChallengeType = 'image' | 'code' | 'copywriting';
 
 export interface Level {
   id: string;
+  moduleId: string;
   type: ChallengeType;
   title: string;
   difficulty: 'beginner' | 'intermediate' | 'advanced';

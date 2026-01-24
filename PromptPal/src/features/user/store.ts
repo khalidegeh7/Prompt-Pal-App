@@ -227,7 +227,7 @@ export const useUserProgressStore = create<UserProgress>()(
           if (modules && modules.length > 0) {
             modules = modules.map(m => ({
               ...m,
-              thumbnail: m.thumbnail || getModuleThumbnail(m.title, m.category)
+              thumbnail: m.thumbnail || getModuleThumbnail(m.title, m.category, m.topic)
             }));
           } else {
             // Fallback to mock data if API returns empty
@@ -240,9 +240,9 @@ export const useUserProgressStore = create<UserProgress>()(
                 topic: 'DALL-E & Midjourney',
                 progress: 65,
                 icon: '🎨',
-                thumbnail: getModuleThumbnail('Mastering Image Generation', 'Visual Arts'),
+                thumbnail: getModuleThumbnail('Mastering Image Generation', 'Visual Arts', 'DALL-E & Midjourney'),
                 accentColor: 'bg-primary',
-                buttonText: 'Continue Learning'
+                buttonText: 'Start Creating'
               },
               {
                 id: 'mod_2',
@@ -252,9 +252,9 @@ export const useUserProgressStore = create<UserProgress>()(
                 topic: 'Automation',
                 progress: 30,
                 icon: '💻',
-                thumbnail: getModuleThumbnail('Python for AI Engineers', 'Development'),
+                thumbnail: getModuleThumbnail('Python for AI Engineers', 'Development', 'Automation'),
                 accentColor: 'bg-info',
-                buttonText: 'Continue Learning'
+                buttonText: 'Start Coding'
               },
               {
                 id: 'mod_3',
@@ -264,9 +264,9 @@ export const useUserProgressStore = create<UserProgress>()(
                 topic: 'Persuasion',
                 progress: 10,
                 icon: '✍️',
-                thumbnail: getModuleThumbnail('Copywriting Alchemist', 'Marketing'),
+                thumbnail: getModuleThumbnail('Copywriting Alchemist', 'Marketing', 'Persuasion'),
                 accentColor: 'bg-accent',
-                buttonText: 'Continue Learning'
+                buttonText: 'Start Writing'
               }
             ];
           }

@@ -3,6 +3,7 @@ import { Level } from '../game/store';
 export const LEVELS: Level[] = [
   {
     id: 'level_01',
+    moduleId: 'mod_1',
     type: 'image',
     title: 'Surreal Landscapes',
     difficulty: 'beginner',
@@ -14,6 +15,7 @@ export const LEVELS: Level[] = [
   },
   {
     id: 'level_02',
+    moduleId: 'mod_2',
     type: 'code',
     title: 'Sort Dictionary List',
     moduleTitle: 'Python: Module 4',
@@ -31,6 +33,7 @@ export const LEVELS: Level[] = [
   },
   {
     id: 'level_03',
+    moduleId: 'mod_3',
     type: 'copywriting',
     title: 'Copywriting Challenge',
     moduleTitle: 'MODULE 3: ENGAGEMENT',
@@ -53,6 +56,10 @@ export const LEVELS: Level[] = [
 
 export function getLevelById(id: string): Level | undefined {
   return LEVELS.find(level => level.id === id);
+}
+
+export function getLevelsByModuleId(moduleId: string): Level[] {
+  return LEVELS.filter(level => level.moduleId === moduleId);
 }
 
 export function getNextLevel(currentId: string): Level | undefined {

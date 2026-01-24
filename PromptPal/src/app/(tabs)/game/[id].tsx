@@ -1,10 +1,11 @@
-import { View, Text, Image, Alert, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, Image, Alert, ScrollView, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState, useEffect, useMemo } from 'react';
 import { Button, Input, Card, Badge, ProgressBar, RadarChart, ResultModal } from '@/components/ui';
-import { getLevelById } from '@/features/levels/data';
+import { getLevelById as getLocalLevelById } from '@/features/levels/data';
 import { AIProxyClient } from '@/lib/aiProxy';
+import { ApiClient, Level } from '@/lib/api';
 import { useGameStore } from '@/features/game/store';
 import { logger } from '@/lib/logger';
 
@@ -19,16 +20,51 @@ export default function GameScreen() {
   const [activeTab, setActiveTab] = useState<'target' | 'attempt'>('target');
   const [showResult, setShowResult] = useState(false);
   const [lastScore, setLastScore] = useState(0);
+  const [level, setLevel] = useState<Level | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const { lives, loseLife, startLevel, completeLevel } = useGameStore();
 
-  const level = useMemo(() => getLevelById(id as string), [id]);
-
   useEffect(() => {
-    if (level) {
-      startLevel(level.id);
+    const loadLevel = async () => {
+      setIsLoading(true);
+      try {
+        // Try local first
+        const localLevel = getLocalLevelById(id as string);
+        if (localLevel) {
+          setLevel(localLevel as any);
+          startLevel(localLevel.id);
+          setIsLoading(false);
+          return;
+        }
+
+        // Try API
+        console.log('[DEBUG] Level not found locally, fetching from API:', id);
+        const apiLevel = await ApiClient.getLevelById(id as string);
+        if (apiLevel) {
+          setLevel(apiLevel);
+          startLevel(apiLevel.id);
+        }
+      } catch (error) {
+        logger.error('GameScreen', error, { operation: 'loadLevel', id });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (id) {
+      loadLevel();
     }
-  }, [startLevel, level?.id]);
+  }, [id, startLevel]);
+
+  if (isLoading) {
+    return (
+      <SafeAreaView className="flex-1 bg-background items-center justify-center">
+        <ActivityIndicator size="large" color="#FF6B00" />
+        <Text className="text-onSurface mt-4 font-black">Loading Challenge…</Text>
+      </SafeAreaView>
+    );
+  }
 
   if (!level) {
     return (
@@ -36,6 +72,9 @@ export default function GameScreen() {
         <View className="flex-1 items-center justify-center px-6">
           <Card className="w-full items-center p-8">
             <Text className="text-error text-xl font-bold mb-4">Level Not Found</Text>
+            <Text className="text-onSurfaceVariant text-center mb-8">
+              We couldn't find challenge "{id}". It may have been removed or moved.
+            </Text>
             <Button onPress={() => router.back()} variant="primary">Go Back</Button>
           </Card>
         </View>

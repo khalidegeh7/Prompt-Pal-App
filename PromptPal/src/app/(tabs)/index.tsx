@@ -101,7 +101,7 @@ const ModuleCard = ({
     if (format === 'video') {
       console.log('Open video player for:', title);
     } else {
-      router.push(`/(tabs)/game/${id}`);
+      router.push(`/(tabs)/game/levels/${id}`);
     }
   };
 

@@ -83,6 +83,7 @@ const QuestCard = ({ quest }: { quest: any }) => {
 };
 
 const ModuleCard = ({ 
+  id,
   title, 
   category, 
   level, 
@@ -91,7 +92,8 @@ const ModuleCard = ({
   icon, 
   thumbnail,
   accentColor,
-  buttonText = "Continue Learning"
+  buttonText = "Continue Learning",
+  onPress
 }: any) => (
   <View className="bg-surface border border-outline/30 rounded-[32px] mb-8 overflow-hidden shadow-sm">
     {/* Header Pattern Area */}
@@ -124,9 +126,12 @@ const ModuleCard = ({
         <View className={`h-full ${accentColor} rounded-full`} style={{ width: `${progress}%` }} />
       </View>
       
-      <TouchableOpacity className="bg-surfaceVariant/50 py-4 rounded-2xl items-center flex-row justify-center border border-outline/10">
+      <TouchableOpacity 
+        onPress={() => onPress && onPress(id)}
+        className="bg-surfaceVariant/50 py-4 rounded-2xl items-center flex-row justify-center border border-outline/10 active:bg-surfaceVariant"
+      >
         <Text className="text-primary font-bold text-base mr-2">{buttonText}</Text>
-        {buttonText === "Continue Learning" && <Ionicons name="arrow-forward" size={18} color="#FF6B00" />}
+        <Ionicons name="arrow-forward" size={18} color="#FF6B00" />
       </TouchableOpacity>
     </View>
   </View>
@@ -236,7 +241,11 @@ export default function HomeScreen() {
             </View>
 
             {learningModules.map((module) => (
-              <ModuleCard key={module.id} {...module} />
+              <ModuleCard 
+                key={module.id} 
+                {...module} 
+                onPress={(id: string) => router.push(`/(tabs)/game/levels/${id}`)}
+              />
             ))}
           </View>
         </ScrollView>
