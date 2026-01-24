@@ -1,7 +1,8 @@
-import { Stack, useRouter } from 'expo-router';
+import { Stack, useRouter, Redirect } from 'expo-router';
 import { useAuth } from '@clerk/clerk-expo';
 import { useEffect } from 'react';
-import { View, ActivityIndicator, Text, SafeAreaView } from 'react-native';
+import { View, ActivityIndicator, Text } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Layout() {
   const { isLoaded, isSignedIn } = useAuth();
@@ -16,7 +17,7 @@ export default function Layout() {
 
   if (!isLoaded) {
     return (
-      <SafeAreaView className="flex-1 bg-background">
+      <SafeAreaView className="flex-1 bg-background" edges={['top', 'bottom']}>
         <View className="flex-1 items-center justify-center px-6">
           <View className="flex-row items-center mb-6">
             <Text className="text-primary text-4xl font-bold">Prompt</Text>
@@ -31,5 +32,18 @@ export default function Layout() {
     );
   }
 
-  return <Stack screenOptions={{ headerShown: false }} />;
+  if (isSignedIn) {
+    return <Redirect href="/(tabs)" />;
+  }
+
+  return (
+    <Stack
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name="index" />
+      <Stack.Screen name="game/[id]" />
+    </Stack>
+  );
 }

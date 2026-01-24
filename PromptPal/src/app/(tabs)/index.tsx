@@ -33,11 +33,11 @@ const getIconName = (icon: string): any => {
 };
 
 const StatCard = ({ label, value, icon, color }: { label: string, value: string, icon: string, color: string }) => (
-  <View className="bg-surface/50 border border-outline/30 p-4 rounded-2xl flex-1 mx-1 items-center">
-    <Text className="text-onSurface text-2xl font-bold mb-1">{value}</Text>
+  <View className="bg-surface/50 border border-outline/30 p-4 rounded-3xl flex-1 mx-1 items-center">
+    <Text className="text-onSurface text-2xl font-black mb-1">{value}</Text>
     <View className="flex-row items-center">
       <Ionicons name={getIconName(icon)} size={14} color="black" />
-      <Text className="text-onSurfaceVariant text-[10px] font-bold uppercase ml-1 tracking-wider">{label}</Text>
+      <Text className="text-onSurfaceVariant text-[8px] font-black uppercase ml-1 tracking-widest">{label}</Text>
     </View>
   </View>
 );
@@ -54,28 +54,28 @@ const QuestCard = ({ quest }: { quest: any }) => {
     <View className="bg-info p-6 rounded-[32px] mb-10 overflow-hidden shadow-lg shadow-info/30">
       <View className="flex-row justify-between items-center mb-6">
         <View className="bg-white/20 px-3 py-1.5 rounded-full">
-          <Text className="text-white text-[10px] font-extrabold uppercase tracking-widest">Daily Quest</Text>
+          <Text className="text-white text-[10px] font-black uppercase tracking-[2px]">Daily Quest</Text>
         </View>
         <View className="flex-row items-center">
           <Ionicons name="time-outline" size={16} color="black" />
-          <Text className="text-white text-xs font-semibold ml-1.5">
-            {formatTimeRemaining(quest.timeRemaining)} remaining
+          <Text className="text-white text-xs font-black ml-1.5 uppercase tracking-tighter">
+            {formatTimeRemaining(quest.timeRemaining)} left
           </Text>
         </View>
       </View>
 
-      <Text className="text-white text-2xl font-bold mb-2">{quest.title}</Text>
-      <Text className="text-white/80 text-sm mb-8 leading-5">{quest.description}</Text>
+      <Text className="text-white text-2xl font-black mb-2">{quest.title}</Text>
+      <Text className="text-white/80 text-sm mb-8 font-medium leading-5">{quest.description}</Text>
 
       <View className="flex-row justify-between items-center">
         <View className="flex-row items-center">
-          <View className="bg-accent rounded-full p-1.5 mr-2">
-            <Ionicons name="star" size={12} color="black" />
+          <View className="bg-white/20 rounded-full p-2 mr-2">
+            <Ionicons name="star" size={14} color="black" />
           </View>
-          <Text className="text-white font-bold text-base">+{quest.xpReward} XP</Text>
+          <Text className="text-white font-black text-lg">+{quest.xpReward} XP</Text>
         </View>
-        <TouchableOpacity className="bg-white px-8 py-3.5 rounded-full shadow-sm">
-          <Text className="text-info font-extrabold text-sm">Start Quest</Text>
+        <TouchableOpacity className="bg-white px-8 py-4 rounded-full shadow-sm">
+          <Text className="text-info font-black text-sm uppercase tracking-widest">Start Quest</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -83,6 +83,7 @@ const QuestCard = ({ quest }: { quest: any }) => {
 };
 
 const ModuleCard = ({ 
+  id,
   title, 
   category, 
   level, 
@@ -91,46 +92,67 @@ const ModuleCard = ({
   icon, 
   thumbnail,
   accentColor,
+  format,
   buttonText = "Continue Learning"
-}: any) => (
-  <View className="bg-surface border border-outline/30 rounded-[32px] mb-8 overflow-hidden shadow-sm">
-    {/* Header Pattern Area */}
-    <View className="h-44 bg-surfaceVariant relative justify-center items-center">
-      {thumbnail ? (
-        <Image source={thumbnail} className="w-full h-full" resizeMode="cover" />
-      ) : (
-        <View className="w-full h-full items-center justify-center opacity-20">
-          <Ionicons name={getIconName(icon)} size={80} color="black" />
+}: any) => {
+  const router = useRouter();
+  
+  const handlePress = () => {
+    if (format === 'video') {
+      console.log('Open video player for:', title);
+    } else {
+      router.push(`/(tabs)/game/${id}`);
+    }
+  };
+
+  return (
+    <View className="bg-surface border border-outline/30 rounded-[32px] mb-8 overflow-hidden shadow-sm">
+      {/* Header Pattern Area */}
+      <View className="h-44 bg-surfaceVariant relative justify-center items-center">
+        {thumbnail ? (
+          <Image source={thumbnail} className="w-full h-full" resizeMode="cover" />
+        ) : (
+          <View className="w-full h-full items-center justify-center opacity-20">
+            <Ionicons name={getIconName(icon)} size={80} color="black" />
+          </View>
+        )}
+        <View className={`absolute top-4 left-4 w-12 h-12 rounded-2xl items-center justify-center ${accentColor}`}>
+          <Ionicons name={getIconName(icon)} size={24} color="black" />
         </View>
-      )}
-      <View className={`absolute top-4 left-4 w-12 h-12 rounded-2xl items-center justify-center ${accentColor}`}>
-        <Ionicons name={getIconName(icon)} size={24} color="black" />
+        {format && (
+          <View className="absolute top-4 right-4 bg-primary px-3 py-1 rounded-full">
+            <Text className="text-white text-[8px] font-black uppercase tracking-widest">{format}</Text>
+          </View>
+        )}
+      </View>
+      
+      <View className="p-6">
+        <Text className={`text-[10px] font-black uppercase mb-2 tracking-[3px] ${accentColor.replace('bg-', 'text-')}`}>
+          {category}
+        </Text>
+        <Text className="text-onSurface text-2xl font-black mb-4">{title}</Text>
+        
+        <View className="flex-row justify-between items-center mb-3">
+          <Text className="text-onSurfaceVariant text-[10px] font-black uppercase tracking-widest">{level}: {topic}</Text>
+          <Text className={`text-xs font-black ${accentColor.replace('bg-', 'text-')}`}>{progress}%</Text>
+        </View>
+        
+        {/* Progress Bar */}
+        <View className="h-2 bg-surfaceVariant rounded-full mb-8 overflow-hidden">
+          <View className={`h-full ${accentColor} rounded-full`} style={{ width: `${progress}%` }} />
+        </View>
+        
+        <TouchableOpacity 
+          onPress={handlePress}
+          className="bg-surfaceVariant/50 py-4 rounded-2xl items-center flex-row justify-center border border-outline/10"
+        >
+          <Text className="text-primary font-black text-sm uppercase tracking-widest mr-2">{buttonText}</Text>
+          {buttonText === "Continue Learning" && <Ionicons name="arrow-forward" size={18} color="#FF6B00" />}
+        </TouchableOpacity>
       </View>
     </View>
-    
-    <View className="p-6">
-      <Text className={`text-[10px] font-extrabold uppercase mb-2 tracking-widest ${accentColor.replace('bg-', 'text-')}`}>
-        {category}
-      </Text>
-      <Text className="text-onSurface text-2xl font-bold mb-4">{title}</Text>
-      
-      <View className="flex-row justify-between items-center mb-3">
-        <Text className="text-onSurfaceVariant text-xs font-semibold">{level}: {topic}</Text>
-        <Text className={`text-xs font-extrabold ${accentColor.replace('bg-', 'text-')}`}>{progress}%</Text>
-      </View>
-      
-      {/* Progress Bar */}
-      <View className="h-2 bg-surfaceVariant rounded-full mb-8 overflow-hidden">
-        <View className={`h-full ${accentColor} rounded-full`} style={{ width: `${progress}%` }} />
-      </View>
-      
-      <TouchableOpacity className="bg-surfaceVariant/50 py-4 rounded-2xl items-center flex-row justify-center border border-outline/10">
-        <Text className="text-primary font-bold text-base mr-2">{buttonText}</Text>
-        {buttonText === "Continue Learning" && <Ionicons name="arrow-forward" size={18} color="#FF6B00" />}
-      </TouchableOpacity>
-    </View>
-  </View>
-);
+  );
+};
 
 
 export default function HomeScreen() {
@@ -176,8 +198,8 @@ export default function HomeScreen() {
                 )}
               </View>
               <View>
-                <Text className="text-onSurfaceVariant text-[10px] font-bold uppercase tracking-widest mb-0.5">Good Morning</Text>
-                <Text className="text-onSurface text-lg font-bold">
+                <Text className="text-onSurfaceVariant text-[8px] font-black uppercase tracking-[3px] mb-0.5">Good Morning</Text>
+                <Text className="text-onSurface text-xl font-black">
                   {user?.firstName || "Alex"} {user?.lastName || "Prompt"}
                 </Text>
               </View>
@@ -209,12 +231,12 @@ export default function HomeScreen() {
           {/* Overall Mastery */}
           <View className="px-6 mb-10">
             <View className="flex-row justify-between items-center mb-2.5">
-              <Text className="text-onSurface text-xs font-bold uppercase tracking-widest">Overall Mastery</Text>
-              <Text className="text-onSurfaceVariant text-xs font-bold">
+              <Text className="text-onSurface text-[10px] font-black uppercase tracking-[2px]">Overall Mastery</Text>
+              <Text className="text-onSurfaceVariant text-xs font-black">
                 {overallProgress.current} / {overallProgress.total} XP
               </Text>
             </View>
-            <View className="h-1.5 bg-surfaceVariant rounded-full overflow-hidden">
+            <View className="h-2 bg-surfaceVariant rounded-full overflow-hidden">
               <View className="h-full bg-info rounded-full" style={{ width: `${overallProgress.percentage}%` }} />
             </View>
           </View>
@@ -229,15 +251,15 @@ export default function HomeScreen() {
           {/* Learning Modules Section */}
           <View className="px-6 pb-20">
             <View className="flex-row justify-between items-center mb-6">
-              <Text className="text-onSurface text-xl font-bold">Learning Modules</Text>
+              <Text className="text-onSurface text-2xl font-black tracking-tight">Learning Modules</Text>
               <TouchableOpacity>
-                <Text className="text-primary text-sm font-bold">View All</Text>
+                <Text className="text-primary text-xs font-black uppercase tracking-widest">View All</Text>
               </TouchableOpacity>
             </View>
 
-            {learningModules.map((module) => (
+            {learningModules?.map((module) => (
               <ModuleCard key={module.id} {...module} />
-            ))}
+            )) ?? null}
           </View>
         </ScrollView>
 
@@ -282,26 +304,6 @@ export default function HomeScreen() {
             </View>
           </View>
         </Modal>
-
-        {/* Mock Bottom Tab Bar - Since we can't easily change the real tab bar here without layout edits */}
-        <View className="absolute bottom-0 left-0 right-0 h-24 bg-background/95 border-t border-outline/20 flex-row justify-around items-center px-4 pb-6">
-          <View className="items-center">
-            <Ionicons name="home" size={24} color="#FF6B00" />
-            <Text className="text-primary text-[10px] font-bold mt-1">Home</Text>
-          </View>
-          <View className="items-center opacity-40">
-            <Ionicons name="library-outline" size={24} color="white" />
-            <Text className="text-white text-[10px] font-bold mt-1">Library</Text>
-          </View>
-          <View className="items-center opacity-40">
-            <Ionicons name="stats-chart-outline" size={24} color="white" />
-            <Text className="text-white text-[10px] font-bold mt-1">Ranking</Text>
-          </View>
-          <View className="items-center opacity-40">
-            <Ionicons name="person-outline" size={24} color="white" />
-            <Text className="text-white text-[10px] font-bold mt-1">Profile</Text>
-          </View>
-        </View>
       </SignedIn>
 
       <SignedOut>
