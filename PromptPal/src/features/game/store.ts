@@ -16,8 +16,7 @@ export interface Level {
   unlocked: boolean;
   
   // Image Challenge specific
-  targetImageUrl?: string;
-  hiddenPromptKeywords?: string[];
+  
   style?: string;
 
   // Code/Logic Challenge specific

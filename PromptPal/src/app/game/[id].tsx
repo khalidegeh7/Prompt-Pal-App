@@ -77,21 +77,27 @@ export default function GameScreen() {
       )}..."`
     );
     setIsGenerating(true);
-    try {
-      const imageUrl = await geminiService.generateImage(prompt);
-      console.log(`[GameScreen] ✅ Image generated:`, imageUrl);
-      setGeneratedImage(imageUrl);
+    
+try {
+  const imageUrl = await geminiService.generateImage(prompt);
+  console.log(`[GameScreen] ✅ Image generated:`, imageUrl);
+  setGeneratedImage(imageUrl);
 
-      // Compare images - pass taskId if available for API evaluation
-      console.log(`[GameScreen] 🔍 Comparing images...`);
-      const score = await geminiService.compareImages(
-        level.targetImageUrl,
-        imageUrl,
-        level.id // Pass level ID as taskId for API evaluation
-      );
-      console.log(
-        `[GameScreen] 📊 Similarity score: ${score}% (passing: ${level.passingScore}%)`
-      );
+  // Compare images - pass taskId if available for API evaluation
+  if (!level.targetImageUrl) {
+    Alert.alert("Error", "Target image URL is missing");
+    return;
+  }
+
+  console.log(`[GameScreen] 🔍 Comparing images...`);
+  const score = await geminiService.compareImages(
+    level.targetImageUrl,
+    imageUrl,
+    level.id // Pass level ID as taskId for API evaluation
+  );
+  console.log(
+    `[GameScreen] 📊 Similarity score: ${score}% (passing: ${level.passingScore}%)`
+  );
 
       Alert.alert(
         "Result",
