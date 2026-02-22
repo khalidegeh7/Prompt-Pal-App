@@ -187,7 +187,7 @@ export function CopyBriefView({ level }: CopyBriefViewProps) {
                   className="bg-surfaceVariant/50 px-3 py-2 rounded-lg border border-outline/20"
                 >
                   <Text className="text-onSurfaceVariant text-xs font-bold uppercase tracking-wider">
-                    {metric.label}
+                    {metric.name}
                   </Text>
                 </View>
               ))}

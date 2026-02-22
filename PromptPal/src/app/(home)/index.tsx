@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { LEVELS, getUnlockedLevels } from '@/features/levels/data';
 import { UsageDisplay } from '@/components/UsageDisplay';
 import { UsageClient, UsageStats } from '@/lib/usage';
-import { useGameStore } from '@/features/game/store';
+import { useGameStore, Level } from '@/features/game/store';
 import { logger } from '@/lib/logger';
 import { SignOutButton } from '@/components/SignOutButton';
 import { Button, Card } from '@/components/ui';
@@ -187,7 +187,7 @@ const LevelList = () => {
       </Text>
 
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        {LEVELS.map(level => (
+        {LEVELS.map((level: Level) => (
           <LevelCard
             key={level.id}
             {...level}

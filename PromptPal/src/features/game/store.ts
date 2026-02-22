@@ -35,7 +35,7 @@ export interface Level {
   briefTarget?: string;
   briefTone?: string;
   briefGoal?: string;
-  metrics?: { label: string; value: number }[];
+  metrics?: { name: string; target: number; weight: number }[] | readonly { name: string; target: number; weight: number }[];
 }
 
 export interface GameState {
